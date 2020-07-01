@@ -1,0 +1,9 @@
+e(a,b).
+e(b,c).
+e(b,a).
+e(c,d).
+
+tc(X,Y) :- e(X,Y).
+tc(X,Y) :- e(X,Z), tc(Z,Y).
+
+#show tc/2.
