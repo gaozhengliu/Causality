@@ -6,4 +6,36 @@ e(c,d).
 tc(X,Y) :- e(X,Y).
 tc(X,Y) :- e(X,Z), tc(Z,Y).
 
-#show tc/2.
+
+
+% We want to test whether a given graph relation g/2 is transitive or not:
+
+% First, let's copy some relation into g/2: 
+g(X,Y) :- tc(X,Y).
+
+% if a transitive edge is missing, report it:
+missing(X,Z,Y) :- g(X,Z), g(Z,Y), not g(X,Y).
+
+transitive(no) :- missing(X,Y,Z).
+
+transitive(yes) :- not transitive(no).
+
+
+% A transitive graph d := tc(e) = e+ 
+d(a,b). d(b,c). d(b,a). d(c,d). d(b,d). d(a,a). d(a,c). d(b,b). d(a,d).
+
+% An edge is transitive, if there are two edges as follows: 
+tedge(X,Y) :- d(X,Z), d(Z,Y).
+
+% INCORRECT: 
+reduced_d(X,Y) :- d(X,Y), not tedge(X,Y).
+
+
+%% #show tc/2.
+%% #show g/2.
+%% #show transitive/1.
+%% #show missing/3.
+
+%% #show d/2.
+%% #show reduced_d/2.
+
